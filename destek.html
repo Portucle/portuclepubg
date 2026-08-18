@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portucle Web & Destek Talepleri</title>
+    <!-- FontAwesome İkon Kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            /* Arka plan görseli index sayfası ile uyumlu */
+            background: linear-gradient(180deg, rgba(10, 15, 29, 0.85), rgba(0, 0, 0, 0.95)), 
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* İkiye Bölünmüş Konteyner (Cam Efektli) */
+        .page-wrapper {
+            display: flex;
+            background: rgba(15, 20, 30, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            animation: formAppear 0.5s ease-out;
+        }
+
+        /* Sol Bilgi Paneli */
+        .info-side {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-side h2 {
+            color: #ffb703;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-description {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .rules-list {
+            list-style: none;
+        }
+
+        .rules-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 3px solid #ffb703;
+            transition: transform 0.3s ease;
+        }
+
+        .rules-list li:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .rules-list i { 
+            color: #ffb703; 
+            margin-top: 3px; 
+            font-size: 1.1rem;
+        }
+
+        /* Sağ Form Paneli */
+        .form-side {
+            flex: 1.2;
+            padding: 40px;
+        }
+
+        .form-side h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            letter-spacing: 2px;
+            font-size: 1.6rem;
+            text-transform: uppercase;
+        }
+
+        .form-group { margin-bottom: 20px; position: relative; }
+        
+        .form-group label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #e2e8f0; 
+            font-size: 0.95rem; 
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%; 
+            padding: 14px 14px 14px 42px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px; 
+            color: #fff; 
+            font-size: 1rem; 
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-icon {
+            position: absolute; 
+            bottom: 14px; 
+            left: 14px;
+            color: #888; 
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: #ffb703; 
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 10px rgba(255, 183, 3, 0.2);
+        }
+        
+        .form-group input:focus + .input-icon, 
+        .form-group select:focus + .input-icon { 
+            color: #ffb703; 
+        }
+
+        .form-group.select-group select { 
+            padding-left: 42px; 
+            appearance: none; 
+        }
+
+        .dynamic-fields { 
+            display: none; 
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-btn {
+            width: 100%; 
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            font-size: 1.1rem;
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer;
+            transition: all 0.3s ease; 
+            margin-top: 15px; 
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.6); 
+        }
+
+        .back-btn {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px;
+            margin-top: 20px; 
+            color: #94a3b8; 
+            text-decoration: none; 
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .back-btn:hover { color: #fff; }
+
+        @keyframes formAppear {
+            from { transform: scale(0.95) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        /* Scrollbar Ayarı */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffb703; }
+
+        /* Mobil Uyum */
+        @media (max-width: 768px) {
+            .page-wrapper { flex-direction: column; }
+            .info-side { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 30px; }
+            .form-side { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Sol Taraf: Bilgi & Kurallar -->
+        <div class="info-side">
+            <h2><i class="fa-solid fa-shield-halved"></i> Klan Şartları</h2>
+            <p class="info-description">Klanımıza katılmak veya bize bir öneride bulunmak istiyorsanız formu eksiksiz doldurunuz. Klan alımlarında dikkat ettiğimiz temel kurallar şunlardır:</p>
+            
+            <ul class="rules-list">
+                <li><i class="fa-solid fa-microphone"></i> <span>Aktif olarak oyuna girmek ve takım içi iletişimi güçlü tutmak.</span></li>
+                <li><i class="fa-solid fa-ranking-star"></i> <span>Belirlenen Rank (Kademe) ve KD seviyesi gereksinimlerini karşılamak.</span></li>
+                <li><i class="fa-solid fa-handshake"></i> <span>Klan içinde saygılı olmak, toksik davranışlardan uzak durmak.</span></li>
+                
+                <!-- YENİ EKLENEN KURAL -->
+                <li><i class="fa-solid fa-user-shield"></i> <span>Sunucuya veya yetkililere karşı kesinlikle hakaret içeren söylemlerde bulunmamak.</span></li>
+            </ul>
+        </div>
+
+        <!-- Sağ Taraf: Form -->
+        <div class="form-side">
+            <h2>İLETİŞİM FORMU</h2>
+            <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="supportForm">
+                
+                <div class="form-group select-group">
+                    <label for="konu">Konu Seçiniz:</label>
+                    <select id="konu" name="Konu" required onchange="handleSubjectChange()">
+                        <option value="" disabled selected>Lütfen bir konu seçin...</option>
+                        <option value="Öneri">Öneri</option>
+                        <option value="Klan Alımı">Klan Alımı</option>
+                    </select>
+                    <i class="fa-solid fa-list-ul input-icon" style="bottom: 14px;"></i>
+                </div>
+
+                <div id="oneri-section" class="dynamic-fields">
+                    <div class="form-group">
+                        <label for="oneri">Öneriniz nedir?:</label>
+                        <textarea id="oneri" name="Öneri Mesajı" rows="5" placeholder="Fikirlerinizi detaylıca yazın..." style="padding-left: 15px;"></textarea>
+                    </div>
+                </div>
+
+                <div id="klan-section" class="dynamic-fields">
+                    <div class="form-group">
+                        <label for="ad">Adınız:</label>
+                        <input type="text" id="ad" name="Adı" placeholder="Adınızı giriniz">
+                        <i class="fa-solid fa-user input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yas">Yaşınız:</label>
+                        <input type="number" id="yas" name="Yaşı" placeholder="Örn: 18">
+                        <i class="fa-solid fa-calendar-days input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seviye">Seviyeniz (Level):</label>
+                        <input type="number" id="seviye" name="Oyuncu Seviyesi" placeholder="Örn: 65">
+                        <i class="fa-solid fa-arrow-up-right-dots input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rank">Rankınız:</label>
+                        <input type="text" id="rank" name="Rank" placeholder="Örn: Fatih, As Ustası vb.">
+                        <i class="fa-solid fa-medal input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group select-group">
+                        <label for="aktiflik">Aktif Oyuncu musunuz?:</label>
+                        <select id="aktiflik" name="Aktiflik Durumu">
+                            <option value="Evet">Evet, her gün aktifim</option>
+                            <option value="Kısmen">Sadece hafta sonları / Akşamları</option>
+                            <option value="Hayır">Seyrek giriyorum</option>
+                        </select>
+                        <i class="fa-solid fa-clock input-icon" style="bottom: 14px;"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> GÖNDER</button>
+                <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön</a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleSubjectChange() {
+            const konu = document.getElementById('konu').value;
+            const oneriSection = document.getElementById('oneri-section');
+            const klanSection = document.getElementById('klan-section');
+
+            // Alanları gizle
+            oneriSection.style.display = 'none';
+            klanSection.style.display = 'none';
+
+            // Zorunlulukları kaldır
+            document.getElementById('oneri').required = false;
+            document.getElementById('ad').required = false;
+            document.getElementById('yas').required = false;
+            document.getElementById('seviye').required = false;
+            document.getElementById('rank').required = false;
+
+            // Seçime göre alan göster ve zorunlu yap
+            if (konu === 'Öneri') {
+                oneriSection.style.display = 'block';
+                document.getElementById('oneri').required = true;
+            } else if (konu === 'Klan Alımı') {
+                klanSection.style.display = 'block';
+                document.getElementById('ad').required = true;
+                document.getElementById('yas').required = true;
+                document.getElementById('seviye').required = true;
+                document.getElementById('rank').required = true;
+            }
+        }
+    </script>
+</body>
+</html>

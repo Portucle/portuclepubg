@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portucle - Web Site</title>
+    <!-- FontAwesome İkon Kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'TNYBold';
+            src: url('TNYBold.ttf') format('truetype'); 
+            font-weight: bold;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            color: #fff;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ARKA PLAN VE EFEKTLER */
+        .bg-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -2;
+            background: linear-gradient(180deg, rgba(10, 15, 29, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1920') no-repeat center center;
+            background-size: cover;
+            animation: slowZoom 25s infinite alternate linear;
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .overlay-glow {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 183, 3, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(231, 76, 60, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* ANA İÇERİK YERLEŞİMİ */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Başlık Alanı */
+        .header {
+            animation: slideRight 1s ease-out;
+        }
+
+        .title {
+            font-family: 'TNYBold', 'Impact', sans-serif;
+            font-size: 7rem;
+            letter-spacing: 6px;
+            color: #ffb703;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 183, 3, 0.5), 5px 5px 0px #000;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #e2e8f0;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 8px 16px;
+            border-left: 4px solid #ffb703;
+            margin-bottom: 40px;
+        }
+
+        /* Sol Orta Bilgi Paneli (Ekranı Dolduran Kısım) */
+        .info-panel {
+            background: rgba(15, 20, 30, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideUp 1.2s ease-out;
+        }
+
+        .info-panel h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-panel h3 i { color: #ffb703; }
+        
+        .info-panel p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 183, 3, 0.2);
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-box i {
+            font-size: 1.5rem;
+            color: #ffb703;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .stat-box span {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Sağ Alt Alan (İstediğiniz Özel Kısım) */
+        .bottom-right {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            background: rgba(15, 20, 30, 0.7);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), inset 0 0 1px 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            z-index: 10;
+        }
+
+        .owner-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: right;
+            width: 100%;
+        }
+
+        .social-link {
+            color: #f1f5f9;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .social-link:hover { color: #ffb703; transform: translateX(-5px); }
+        .social-link:hover i { transform: scale(1.2); }
+
+        .support-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(39, 174, 96, 0.4);
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .support-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.7);
+        }
+
+        /* Animasyonlar */
+        @keyframes slideRight {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Mobil Uyumluluk */
+        @media (max-width: 768px) {
+            body { overflow-y: auto; display: block; padding-bottom: 120px; }
+            .title { font-size: 4rem; margin-top: 40px;}
+            .main-content { padding: 20px; text-align: center; align-items: center; }
+            .subtitle { font-size: 0.9rem; }
+            .info-panel { text-align: left; }
+            .bottom-right { 
+                position: relative; 
+                right: auto; bottom: auto; 
+                margin: 40px 20px;
+                align-items: center; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container"></div>
+    <div class="overlay-glow"></div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1 class="title">PORTUCLE</h1>
+            <div class="subtitle">Official Content Creator & E-Sports</div>
+        </div>
+
+        <!-- Ekranı Dolduran Bilgi Paneli -->
+        <div class="info-panel">
+            <h3><i class="fa-solid fa-crosshairs"></i> Savaş Alanına Hoş Geldin</h3>
+            <p>Burası Portucle'ın resmi web karargahı. En yeni güncellemeleri takip et, klan alımlarına başvur veya fikirlerini doğrudan bizimle paylaş. Profesyonel oyuncu ekibimize katılmak için şartları sağlıyorsan durma!</p>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    <span>Yüksek Rank</span>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-users-rays"></i>
+                    <span>Aktif Klan</span>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-video"></i>
+                    <span>İçerikler</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Alt Köşe -->
+    <div class="bottom-right">
+        <span class="owner-tag"><i class="fa-solid fa-crown"></i> REAL OWNER</span>
+        
+        <div class="social-links">
+            <a href="https://www.youtube.com/@realportucle" target="_blank" class="social-link">
+                YouTube: @realportucle <i class="fa-brands fa-youtube" style="color: #ff0000;"></i>
+            </a>
+            <a href="https://www.tiktok.com/@realportuclepm" target="_blank" class="social-link">
+                TikTok: @realportuclepm <i class="fa-brands fa-tiktok" style="color: #00f2fe;"></i>
+            </a>
+        </div>
+
+        <a href="destek.html" class="support-btn">
+            <i class="fa-solid fa-headset"></i> Destek Talebi için Tıkla
+        </a>
+    </div>
+
+</body>
+</html>
