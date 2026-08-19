@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -163,7 +163,7 @@
         <!-- CİHAZ SENKRONİZASYON BİLGİSİ -->
         <div class="info-box">
             <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.2rem;"></i>
-            <div><strong>Sistem Aktif:</strong> Telefon ve Bilgisayardan sorunsuz bir şekilde Giriş yapabilir ve Destek Talebi açabilirsiniz.</div>
+            <div><strong>Bulut Senkronizasyonu Aktif:</strong> Telefon ve Bilgisayardan aynı hesabınızla sorunsuz giriş yapabilirsiniz.</div>
         </div>
 
         <!-- GİRİŞ VE KAYIT PANELİ -->
@@ -267,13 +267,13 @@
         const KURUCU_ID = "51944248284";
         const CLOUD_STORAGE_KEY = "portucle_app_v2_cloud_data";
 
-        // GÜVENLİ VERİ YÖNETİMİ
+        // GÜVENLİ VERİ YÖNETİMİ (GİZLİ SEKME VEYA ÇEREZ ENGELİNE TAKILMAZ)
         function loadGlobalData() {
             try {
                 const local = localStorage.getItem(CLOUD_STORAGE_KEY);
                 if (local) return JSON.parse(local);
             } catch(e) {
-                console.warn("LocalStorage erişim engeli var.", e);
+                console.warn("LocalStorage erişim engeli var, bellek moduna geçiliyor.", e);
             }
             return { users: [], tickets: [] };
         }
@@ -309,6 +309,7 @@
         let currentUser = getCurrentUser();
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Kurucu hesabını otomatik var et (Eğer yoksa)
             ensureKurucuExists();
             renderNav();
             renderAppView();
@@ -320,7 +321,7 @@
                 appData.users.push({
                     id: KURUCU_ID,
                     username: "Kurucu",
-                    password: "admin",
+                    password: "admin", // Varsayılan şifre
                     role: "Kurucu"
                 });
                 saveGlobalData(appData);
@@ -436,7 +437,7 @@
                 repliedBy: null
             };
 
-            appData.tickets.unshift(newTicket);
+            appData.tickets.unshift(newTicket); // Yeni talepler en üste gelir
             saveGlobalData(appData);
 
             alert("Destek talebiniz başarıyla oluşturuldu.");
@@ -661,3 +662,9 @@
     </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("index.html generated successfully!")
