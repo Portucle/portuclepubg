@@ -3,391 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portucle - Destek Merkezi</title>
-    <!-- FontAwesome İkon Kütüphanesi -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Portucle - Official Website</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
+        /* TNYBold Font Tanımlaması */
+        @font-face {
+            font-family: 'TNYBold';
+            src: url('TNYBold.ttf') format('truetype'); /* TNYBold.ttf dosyanız varsa bu dizine atın */
+            font-weight: bold;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            min-height: 100vh;
-            color: #fff;
-            background: linear-gradient(180deg, rgba(10, 15, 29, 0.92), rgba(0, 0, 0, 0.95)), 
+            /* PUBG Mobile Arka Plan Görseli */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
                         url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920') no-repeat center center fixed;
             background-size: cover;
-            padding-bottom: 50px;
-        }
-
-        /* Navigasyon Barı */
-        nav {
-            background: rgba(15, 20, 30, 0.85);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 30px;
+            height: 100vh;
+            color: #fff;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 40px;
+            overflow: hidden;
         }
 
-        .logo { font-size: 1.5rem; font-weight: bold; color: #ffb703; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .user-nav { display: flex; align-items: center; gap: 12px; }
+        /* Ana Başlık Alanı */
+        .header {
+            text-align: center;
+            margin-top: 15vh;
+        }
 
-        /* Tag / Badge Stilleri */
-        .badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
+        .title {
+            font-family: 'TNYBold', 'Impact', sans-serif;
+            font-size: 5rem;
+            letter-spacing: 4px;
+            color: #f39c12;
+            text-shadow: 0 0 20px rgba(243, 156, 18, 0.6), 3px 3px 5px #000;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+        }
+
+        /* Sağ Alt Alan (Owner, Sosyal Medya, Buton) */
+        .bottom-right {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .owner-tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #e74c3c;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(231, 76, 60, 0.15);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: right;
+            width: 100%;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
             display: inline-block;
         }
-        .badge-kurucu { background: #e74c3c; color: #fff; box-shadow: 0 0 10px rgba(231, 76, 60, 0.6); }
-        .badge-yonetici { background: #e67e22; color: #fff; box-shadow: 0 0 10px rgba(230, 126, 34, 0.6); }
-        .badge-elit { background: #9b59b6; color: #fff; box-shadow: 0 0 10px rgba(155, 89, 182, 0.6); }
-        .badge-oyuncu { background: #34495e; color: #fff; }
-        .badge-kapali { background: #64748b; color: #fff; }
 
-        /* Butonlar */
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .social-link:hover {
+            color: #f39c12;
+            transform: translateX(-5px);
+        }
+
+        .support-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 24px;
             text-decoration: none;
-            color: #fff;
-            font-size: 0.9rem;
-        }
-        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
-        .btn-primary { background: linear-gradient(135deg, #ffb703, #fb8500); color: #000; font-weight: bold; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
-        .btn-danger { background: #e74c3c; }
-        .btn-danger:hover { background: #c0392b; }
-
-        /* Konteyner Düzeni */
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .card {
-            background: rgba(15, 20, 30, 0.85);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Form Elemanları */
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #cbd5e1; }
-        .form-group select, .form-group textarea {
+            font-weight: bold;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+            margin-top: 5px;
+            text-align: center;
             width: 100%;
-            padding: 12px 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .form-group select:focus, .form-group textarea:focus {
-            border-color: #ffb703;
-            box-shadow: 0 0 8px rgba(255, 183, 3, 0.3);
         }
 
-        /* Destek Talebi Kartları */
-        .ticket-item {
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
+        .support-btn:hover {
+            background-color: #2ea043;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
         }
-        .ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .ticket-author { font-weight: bold; color: #ffb703; display: flex; align-items: center; gap: 10px; }
-        .ticket-body { margin-bottom: 15px; font-size: 0.95rem; color: #e2e8f0; line-height: 1.5; }
-        .ticket-reply { background: rgba(255, 183, 3, 0.08); border-left: 3px solid #ffb703; padding: 12px; margin-top: 10px; border-radius: 6px; }
-        .ticket-reply-author { font-size: 0.85rem; color: #ffb703; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
 
-        .hidden { display: none !important; }
+        @media (max-width: 768px) {
+            .title { font-size: 3rem; }
+            .bottom-right { 
+                position: relative; 
+                right: 0; 
+                bottom: 0; 
+                align-items: center; 
+                margin-top: auto;
+            }
+            .social-links { text-align: center; }
+            .social-link:hover { transform: translateY(-2px); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ÜST MENÜ (NAVBAR) -->
-    <nav>
-        <a href="index.html" class="logo"><i class="fa-solid fa-gamepad"></i> PORTUCLE</a>
-        <div class="user-nav" id="userNav"></div>
-    </nav>
-
-    <div class="container">
-
-        <!-- GİRİŞ UYARISI -->
-        <div id="loginRequiredContainer" class="card hidden" style="text-align: center;">
-            <i class="fa-solid fa-lock" style="font-size: 3rem; color: #ffb703; margin-bottom: 15px;"></i>
-            <h2 style="margin-bottom: 10px;">Giriş Yapmanız Gerekiyor</h2>
-            <p style="color: #94a3b8; margin-bottom: 20px;">Destek talebi oluşturmak veya yönetmek için lütfen giriş yapın.</p>
-            <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
-        </div>
-
-        <!-- DESTEK TALEBİ OLUŞTURMA -->
-        <div id="supportFormContainer" class="card hidden">
-            <h2 style="color: #ffb703; margin-bottom: 20px;"><i class="fa-solid fa-headset"></i> Destek Talebi Oluştur</h2>
-            <form onsubmit="handleCreateTicket(event)">
-                <div class="form-group">
-                    <label>Konu Seçiniz</label>
-                    <select id="ticketSubject" required>
-                        <option value="Klan Alımı">Klan Alımı</option>
-                        <option value="Şikayet / Bildirim">Şikayet / Bildirim</option>
-                        <option value="Öneri">Öneri</option>
-                        <option value="Diğer">Diğer</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Destek Mesajınız</label>
-                    <textarea id="ticketMessage" rows="4" placeholder="Sorununuzu veya talebinizi detaylıca açıklayın..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Talebi Gönder</button>
-            </form>
-        </div>
-
-        <!-- KULLANICININ DESTEK TALEPLERİ -->
-        <div id="myTicketsContainer" class="card hidden">
-            <h3 style="margin-bottom: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Destek Geçmişim</h3>
-            <div id="myTicketsList"></div>
-        </div>
-
-        <!-- YETKİLİ PANELİ - GELEN TALEPLER -->
-        <div id="adminTicketsContainer" class="card hidden">
-            <h2 style="color: #e67e22; margin-bottom: 20px;"><i class="fa-solid fa-user-shield"></i> Gelen Destek Talepleri (Yetkili Paneli)</h2>
-            <div id="adminTicketsList"></div>
-        </div>
-
+    <div class="header">
+        <h1 class="title">PORTUCLE</h1>
     </div>
 
-    <script>
-        let users = JSON.parse(localStorage.getItem('portucle_users')) || [];
-        let tickets = JSON.parse(localStorage.getItem('portucle_tickets')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('portucle_current_user')) || null;
+    <div class="bottom-right">
+        <span class="owner-tag">REAL OWNER</span>
+        
+        <div class="social-links">
+            <a href="https://www.youtube.com/@realportucle" target="_blank" class="social-link">YouTube: @realportucle</a>
+            <a href="https://www.tiktok.com/@realportuclepm" target="_blank" class="social-link">TikTok: @realportuclepm</a>
+        </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderNav();
-            renderAppView();
-        });
+        <a href="destek.html" class="support-btn">Destek Talebi için Tıkla</a>
+    </div>
 
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('portucle_current_user');
-            window.location.href = 'index.html';
-        }
-
-        function handleCreateTicket(e) {
-            e.preventDefault();
-            const subject = document.getElementById('ticketSubject').value;
-            const message = document.getElementById('ticketMessage').value.trim();
-
-            const newTicket = {
-                id: Date.now(),
-                userId: currentUser.id,
-                username: currentUser.username,
-                subject: subject,
-                message: message,
-                status: 'Açık',
-                reply: null,
-                repliedBy: null
-            };
-
-            tickets.push(newTicket);
-            localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
-
-            alert("Destek talebiniz başarıyla gönderildi!");
-            document.getElementById('ticketMessage').value = '';
-            renderAppView();
-        }
-
-        function handleReplyTicket(ticketId) {
-            const replyInput = document.getElementById(`reply-input-${ticketId}`);
-            const replyText = replyInput.value.trim();
-
-            if (!replyText) {
-                alert("Lütfen yanıt metnini boş bırakmayın!");
-                return;
-            }
-
-            const ticketIndex = tickets.findIndex(t => t.id === ticketId);
-            if (ticketIndex !== -1) {
-                tickets[ticketIndex].reply = replyText;
-                tickets[ticketIndex].status = 'Cevaplandı';
-                tickets[ticketIndex].repliedBy = {
-                    username: currentUser.username,
-                    role: currentUser.role
-                };
-
-                localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
-                renderAppView();
-            }
-        }
-
-        // --- TALEP KAPATMA İŞLEMİ ---
-        function handleCloseTicket(ticketId) {
-            if (!confirm("Bu destek talebini kapatmak istediğinize emin misiniz?")) return;
-
-            const ticketIndex = tickets.findIndex(t => t.id === ticketId);
-            if (ticketIndex !== -1) {
-                tickets[ticketIndex].status = 'Kapalı';
-                localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
-                renderAppView();
-            }
-        }
-
-        function renderNav() {
-            const nav = document.getElementById('userNav');
-            if (currentUser) {
-                let badgeClass = getBadgeClass(currentUser.role);
-                nav.innerHTML = `
-                    <a href="index.html" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-user"></i>
-                        <span style="font-weight: 600;">${currentUser.username}</span>
-                        <span class="badge ${badgeClass}">${currentUser.role}</span>
-                    </div>
-                    <button class="btn btn-danger" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
-                `;
-            } else {
-                nav.innerHTML = `
-                    <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Giriş Yap</a>
-                `;
-            }
-        }
-
-        function renderAppView() {
-            const loginRequiredContainer = document.getElementById('loginRequiredContainer');
-            const supportFormContainer = document.getElementById('supportFormContainer');
-            const myTicketsContainer = document.getElementById('myTicketsContainer');
-            const adminTicketsContainer = document.getElementById('adminTicketsContainer');
-
-            loginRequiredContainer.classList.add('hidden');
-            supportFormContainer.classList.add('hidden');
-            myTicketsContainer.classList.add('hidden');
-            adminTicketsContainer.classList.add('hidden');
-
-            if (!currentUser) {
-                loginRequiredContainer.classList.remove('hidden');
-            } else {
-                supportFormContainer.classList.remove('hidden');
-                myTicketsContainer.classList.remove('hidden');
-                renderMyTickets();
-
-                if (['Kurucu', 'Yönetici', 'Elit'].includes(currentUser.role)) {
-                    adminTicketsContainer.classList.remove('hidden');
-                    renderAdminTickets();
-                }
-            }
-        }
-
-        function renderMyTickets() {
-            const container = document.getElementById('myTicketsList');
-            const myTickets = tickets.filter(t => t.userId === currentUser.id);
-
-            if (myTickets.length === 0) {
-                container.innerHTML = '<p style="color: #94a3b8;">Henüz oluşturulmuş bir destek talebiniz yok.</p>';
-                return;
-            }
-
-            container.innerHTML = myTickets.map(t => `
-                <div class="ticket-item">
-                    <div class="ticket-header">
-                        <strong>Konu: ${t.subject}</strong>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="badge ${getStatusBadgeClass(t.status)}">${t.status}</span>
-                            ${t.status !== 'Kapalı' ? `
-                                <button class="btn btn-danger btn-sm" onclick="handleCloseTicket(${t.id})"><i class="fa-solid fa-xmark"></i> Talebi Kapat</button>
-                            ` : ''}
-                        </div>
-                    </div>
-                    <div class="ticket-body">${t.message}</div>
-                    ${t.reply ? `
-                        <div class="ticket-reply">
-                            <div class="ticket-reply-author">
-                                <i class="fa-solid fa-reply"></i> Yanıtlayan: ${t.repliedBy.username} 
-                                <span class="badge ${getBadgeClass(t.repliedBy.role)}">${t.repliedBy.role}</span>
-                            </div>
-                            <div>${t.reply}</div>
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-
-        function renderAdminTickets() {
-            const container = document.getElementById('adminTicketsList');
-
-            if (tickets.length === 0) {
-                container.innerHTML = '<p style="color: #94a3b8;">Bekleyen veya gelen destek talebi yok.</p>';
-                return;
-            }
-
-            container.innerHTML = tickets.map(t => `
-                <div class="ticket-item">
-                    <div class="ticket-header">
-                        <div class="ticket-author">
-                            <i class="fa-solid fa-user"></i> ${t.username}
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="badge ${getStatusBadgeClass(t.status)}">${t.status}</span>
-                            ${t.status !== 'Kapalı' ? `
-                                <button class="btn btn-danger btn-sm" onclick="handleCloseTicket(${t.id})"><i class="fa-solid fa-xmark"></i> Kapat</button>
-                            ` : ''}
-                        </div>
-                    </div>
-                    <div class="ticket-body">
-                        <strong>Konu: ${t.subject}</strong><br>
-                        ${t.message}
-                    </div>
-                    ${t.reply ? `
-                        <div class="ticket-reply">
-                            <div class="ticket-reply-author">
-                                <i class="fa-solid fa-check-double"></i> Yanıtlayan: ${t.repliedBy.username} 
-                                <span class="badge ${getBadgeClass(t.repliedBy.role)}">${t.repliedBy.role}</span>
-                            </div>
-                            <div>${t.reply}</div>
-                        </div>
-                    ` : (t.status !== 'Kapalı' ? `
-                        <div style="margin-top: 10px;">
-                            <textarea id="reply-input-${t.id}" rows="2" placeholder="Yanıtınızı yazınız..." style="width: 100%; margin-bottom: 8px;"></textarea>
-                            <button class="btn btn-primary" onclick="handleReplyTicket(${t.id})"><i class="fa-solid fa-reply"></i> Yanıtla ve Gönder</button>
-                        </div>
-                    ` : '<p style="color: #94a3b8; font-size: 0.85rem; margin-top: 10px;"><i class="fa-solid fa-lock"></i> Bu talep kapatıldığı için yanıt verilemez.</p>')}
-                </div>
-            `).join('');
-        }
-
-        function getBadgeClass(role) {
-            switch(role) {
-                case 'Kurucu': return 'badge-kurucu';
-                case 'Yönetici': return 'badge-yonetici';
-                case 'Elit': return 'badge-elit';
-                default: return 'badge-oyuncu';
-            }
-        }
-
-        function getStatusBadgeClass(status) {
-            switch(status) {
-                case 'Cevaplandı': return 'badge-elit';
-                case 'Kapalı': return 'badge-kapali';
-                default: return 'badge-yonetici';
-            }
-        }
-    </script>
 </body>
 </html>
