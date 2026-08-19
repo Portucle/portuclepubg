@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portucle - Official Website</title>
+    <title>Destek & Klan Başvurusu - Portucle</title>
     <style>
-        /* TNYBold Font Tanımlaması */
-        @font-face {
-            font-family: 'TNYBold';
-            src: url('TNYBold.ttf') format('truetype'); /* TNYBold.ttf dosyanız varsa bu dizine atın */
-            font-weight: bold;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -20,134 +13,196 @@
         }
 
         body {
-            /* PUBG Mobile Arka Plan Görseli */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
                         url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920') no-repeat center center fixed;
             background-size: cover;
-            height: 100vh;
             color: #fff;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 40px;
-            overflow: hidden;
-        }
-
-        /* Ana Başlık Alanı */
-        .header {
-            text-align: center;
-            margin-top: 15vh;
-        }
-
-        .title {
-            font-family: 'TNYBold', 'Impact', sans-serif;
-            font-size: 5rem;
-            letter-spacing: 4px;
-            color: #f39c12;
-            text-shadow: 0 0 20px rgba(243, 156, 18, 0.6), 3px 3px 5px #000;
-            text-transform: uppercase;
-        }
-
-        /* Sağ Alt Alan (Owner, Sosyal Medya, Buton) */
-        .bottom-right {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.65);
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+        }
+
+        .form-container {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid #333;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        .owner-tag {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #e74c3c;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: rgba(231, 76, 60, 0.15);
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(231, 76, 60, 0.3);
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            text-align: right;
+            padding: 30px;
             width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
         }
 
-        .social-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .social-link:hover {
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
             color: #f39c12;
-            transform: translateX(-5px);
+            letter-spacing: 1px;
         }
 
-        .support-btn {
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: #27ae60;
+        }
+
+        .dynamic-fields {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-btn {
+            width: 100%;
             background-color: #27ae60;
             color: white;
-            padding: 12px 24px;
-            text-decoration: none;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
-            margin-top: 5px;
-            text-align: center;
-            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
-        .support-btn:hover {
+        .submit-btn:hover {
             background-color: #2ea043;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
         }
 
-        @media (max-width: 768px) {
-            .title { font-size: 3rem; }
-            .bottom-right { 
-                position: relative; 
-                right: 0; 
-                bottom: 0; 
-                align-items: center; 
-                margin-top: auto;
-            }
-            .social-links { text-align: center; }
-            .social-link:hover { transform: translateY(-2px); }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1 class="title">PORTUCLE</h1>
-    </div>
-
-    <div class="bottom-right">
-        <span class="owner-tag">REAL OWNER</span>
+    <div class="form-container">
+        <h2>DESTEK & BAŞVURU FORMU</h2>
         
-        <div class="social-links">
-            <a href="https://www.youtube.com/@realportucle" target="_blank" class="social-link">YouTube: @realportucle</a>
-            <a href="https://www.tiktok.com/@realportuclepm" target="_blank" class="social-link">TikTok: @realportuclepm</a>
-        </div>
+        <!-- Formspree Entegrasyonu (Mail adresinizi göstermez) -->
+        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="supportForm">
+            
+            <!-- Konu Seçimi -->
+            <div class="form-group">
+                <label for="konu">Konu Seçiniz:</label>
+                <select id="konu" name="Konu" required onchange="handleSubjectChange()">
+                    <option value="" disabled selected>Lütfen bir konu seçin...</option>
+                    <option value="Öneri">Öneri</option>
+                    <option value="Klan Alımı">Klan Alımı</option>
+                </select>
+            </div>
 
-        <a href="destek.html" class="support-btn">Destek Talebi için Tıkla</a>
+            <!-- Öneri İçin Alan -->
+            <div id="oneri-section" class="dynamic-fields">
+                <div class="form-group">
+                    <label for="oneri">Öneriniz nedir?:</label>
+                    <textarea id="oneri" name="Öneri Mesajı" rows="4" placeholder="Önerinizi detaylıca yazınız..."></textarea>
+                </div>
+            </div>
+
+            <!-- Klan Alımı İçin Alanlar -->
+            <div id="klan-section" class="dynamic-fields">
+                <div class="form-group">
+                    <label for="ad">Adınız:</label>
+                    <input type="text" id="ad" name="Adı" placeholder="Adınızı giriniz">
+                </div>
+                <div class="form-group">
+                    <label for="yas">Yaşınız:</label>
+                    <input type="number" id="yas" name="Yaşı" placeholder="Yaşınızı giriniz">
+                </div>
+                <div class="form-group">
+                    <label for="seviye">Seviyeniz (Level):</label>
+                    <input type="text" id="seviye" name="Oyuncu Seviyesi" placeholder="Örn: 65">
+                </div>
+                <div class="form-group">
+                    <label for="rank">Rankınız:</label>
+                    <input type="text" id="rank" name="Rank" placeholder="Örn: As Ustası, Fatih vb.">
+                </div>
+                <div class="form-group">
+                    <label for="aktiflik">Aktif Oyuncu musunuz?:</label>
+                    <select id="aktiflik" name="Aktiflik Durumu">
+                        <option value="Evet">Evet, her gün aktifim</option>
+                        <option value="Kısmen">Sadece hafta sonları / Akşamları</option>
+                        <option value="Hayır">Seyrek giriyorum</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Gönder</button>
+            <a href="index.html" class="back-btn">← Ana Sayfaya Dön</a>
+        </form>
     </div>
 
+    <script>
+        function handleSubjectChange() {
+            const konu = document.getElementById('konu').value;
+            const oneriSection = document.getElementById('oneri-section');
+            const klanSection = document.getElementById('klan-section');
+
+            // Tüm dinamik alanları gizle
+            oneriSection.style.display = 'none';
+            klanSection.style.display = 'none';
+
+            // Gereksinim alanlarını sıfırla
+            document.getElementById('oneri').required = false;
+            document.getElementById('ad').required = false;
+            document.getElementById('yas').required = false;
+            document.getElementById('seviye').required = false;
+            document.getElementById('rank').required = false;
+
+            if (konu === 'Öneri') {
+                oneriSection.style.display = 'block';
+                document.getElementById('oneri').required = true;
+            } else if (konu === 'Klan Alımı') {
+                klanSection.style.display = 'block';
+                document.getElementById('ad').required = true;
+                document.getElementById('yas').required = true;
+                document.getElementById('seviye').required = true;
+                document.getElementById('rank').required = true;
+            }
+        }
+    </script>
 </body>
 </html>
