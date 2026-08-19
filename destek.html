@@ -3,204 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destek & Klan Başvurusu - Portucle</title>
+    <title>Portucle - Destek Merkezi</title>
+    <!-- FontAwesome İkon Kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+            min-height: 100vh;
+            color: #fff;
+            background: linear-gradient(180deg, rgba(10, 15, 29, 0.92), rgba(0, 0, 0, 0.95)), 
                         url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920') no-repeat center center fixed;
             background-size: cover;
-            color: #fff;
-            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Navigasyon Barı */
+        nav {
+            background: rgba(15, 20, 30, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .form-container {
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #ffb703; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .user-nav { display: flex; align-items: center; gap: 12px; }
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #f39c12;
-            letter-spacing: 1px;
+        /* Tag / Badge Stilleri */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
+        .badge-kurucu { background: #e74c3c; color: #fff; box-shadow: 0 0 10px rgba(231, 76, 60, 0.6); }
+        .badge-yonetici { background: #e67e22; color: #fff; box-shadow: 0 0 10px rgba(230, 126, 34, 0.6); }
+        .badge-elit { background: #9b59b6; color: #fff; box-shadow: 0 0 10px rgba(155, 89, 182, 0.6); }
+        .badge-oyuncu { background: #34495e; color: #fff; }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
+        /* Butonlar */
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
             font-weight: 600;
-            color: #ccc;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #fff;
             font-size: 0.9rem;
         }
+        .btn-primary { background: linear-gradient(135deg, #ffb703, #fb8500); color: #000; font-weight: bold; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
+        .btn-danger { background: #e74c3c; }
+        .btn-danger:hover { background: #c0392b; }
 
-        .form-group input, 
-        .form-group select, 
-        .form-group textarea {
+        /* Konteyner Düzeni */
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .card {
+            background: rgba(15, 20, 30, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Form Elemanları */
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #cbd5e1; }
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 6px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             transition: border-color 0.3s;
         }
-
-        .form-group input:focus, 
-        .form-group select:focus, 
-        .form-group textarea:focus {
-            border-color: #27ae60;
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #ffb703;
+            box-shadow: 0 0 8px rgba(255, 183, 3, 0.3);
         }
 
-        .dynamic-fields {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out forwards;
-        }
+        /* Tab / Sekme Yapısı */
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; color: #94a3b8; font-size: 1.1rem; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: 6px; }
+        .tab-btn.active { color: #ffb703; background: rgba(255, 183, 3, 0.1); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Destek Talebi Kartları */
+        .ticket-item {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
         }
+        .ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .ticket-author { font-weight: bold; color: #ffb703; display: flex; align-items: center; gap: 10px; }
+        .ticket-body { margin-bottom: 15px; font-size: 0.95rem; color: #e2e8f0; line-height: 1.5; }
+        .ticket-reply { background: rgba(255, 183, 3, 0.08); border-left: 3px solid #ffb703; padding: 12px; margin-top: 10px; border-radius: 6px; }
+        .ticket-reply-author { font-size: 0.85rem; color: #ffb703; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
 
-        .submit-btn {
-            width: 100%;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: #2ea043;
-        }
-
-        .back-btn {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #888;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-        }
-
-        .back-btn:hover {
-            color: #fff;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>DESTEK & BAŞVURU FORMU</h2>
-        
-        <!-- Formspree Entegrasyonu (Mail adresinizi göstermez) -->
-        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="supportForm">
-            
-            <!-- Konu Seçimi -->
-            <div class="form-group">
-                <label for="konu">Konu Seçiniz:</label>
-                <select id="konu" name="Konu" required onchange="handleSubjectChange()">
-                    <option value="" disabled selected>Lütfen bir konu seçin...</option>
-                    <option value="Öneri">Öneri</option>
-                    <option value="Klan Alımı">Klan Alımı</option>
-                </select>
-            </div>
+    <!-- ÜST MENÜ (NAVBAR) -->
+    <nav>
+        <a href="index.html" class="logo"><i class="fa-solid fa-gamepad"></i> PORTUCLE</a>
+        <div class="user-nav" id="userNav">
+            <!-- JavaScript ile Yüklenecek -->
+        </div>
+    </nav>
 
-            <!-- Öneri İçin Alan -->
-            <div id="oneri-section" class="dynamic-fields">
-                <div class="form-group">
-                    <label for="oneri">Öneriniz nedir?:</label>
-                    <textarea id="oneri" name="Öneri Mesajı" rows="4" placeholder="Önerinizi detaylıca yazınız..."></textarea>
-                </div>
-            </div>
+    <div class="container">
 
-            <!-- Klan Alımı İçin Alanlar -->
-            <div id="klan-section" class="dynamic-fields">
+        <!-- 1. GİRİŞ UYARISI (Giriş Yapılmamışsa Görünür) -->
+        <div id="loginRequiredContainer" class="card hidden" style="text-align: center;">
+            <i class="fa-solid fa-lock" style="font-size: 3rem; color: #ffb703; margin-bottom: 15px;"></i>
+            <h2 style="margin-bottom: 10px;">Giriş Yapmanız Gerekiyor</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Destek talebi oluşturmak veya taleplerinizi görüntülemek için lütfen ana sayfadan giriş yapın.</p>
+            <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfaya Git & Giriş Yap</a>
+        </div>
+
+        <!-- 2. DESTEK TALEBİ OLUŞTURMA PANELİ -->
+        <div id="supportFormContainer" class="card hidden">
+            <h2 style="color: #ffb703; margin-bottom: 20px;"><i class="fa-solid fa-headset"></i> Destek Talebi Oluştur</h2>
+            <form onsubmit="handleCreateTicket(event)">
                 <div class="form-group">
-                    <label for="ad">Adınız:</label>
-                    <input type="text" id="ad" name="Adı" placeholder="Adınızı giriniz">
-                </div>
-                <div class="form-group">
-                    <label for="yas">Yaşınız:</label>
-                    <input type="number" id="yas" name="Yaşı" placeholder="Yaşınızı giriniz">
-                </div>
-                <div class="form-group">
-                    <label for="seviye">Seviyeniz (Level):</label>
-                    <input type="text" id="seviye" name="Oyuncu Seviyesi" placeholder="Örn: 65">
-                </div>
-                <div class="form-group">
-                    <label for="rank">Rankınız:</label>
-                    <input type="text" id="rank" name="Rank" placeholder="Örn: As Ustası, Fatih vb.">
-                </div>
-                <div class="form-group">
-                    <label for="aktiflik">Aktif Oyuncu musunuz?:</label>
-                    <select id="aktiflik" name="Aktiflik Durumu">
-                        <option value="Evet">Evet, her gün aktifim</option>
-                        <option value="Kısmen">Sadece hafta sonları / Akşamları</option>
-                        <option value="Hayır">Seyrek giriyorum</option>
+                    <label>Konu Seçiniz</label>
+                    <select id="ticketSubject" required>
+                        <option value="Klan Alımı">Klan Alımı</option>
+                        <option value="Şikayet / Bildirim">Şikayet / Bildirim</option>
+                        <option value="Öneri">Öneri</option>
+                        <option value="Diğer">Diğer</option>
                     </select>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Destek Mesajınız</label>
+                    <textarea id="ticketMessage" rows="4" placeholder="Sorununuzu veya talebinizi detaylıca açıklayın..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Talebi Gönder</button>
+            </form>
+        </div>
 
-            <button type="submit" class="submit-btn">Gönder</button>
-            <a href="index.html" class="back-btn">← Ana Sayfaya Dön</a>
-        </form>
+        <!-- 3. KULLANICININ KENDİ DESTEK TALEPLERİ -->
+        <div id="myTicketsContainer" class="card hidden">
+            <h3 style="margin-bottom: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Destek Geçmişim</h3>
+            <div id="myTicketsList"></div>
+        </div>
+
+        <!-- 4. YETKİLİ PANELİ - GELEN TALEPLER (Kurucu, Yönetici, Elit Görür) -->
+        <div id="adminTicketsContainer" class="card hidden">
+            <h2 style="color: #e67e22; margin-bottom: 20px;"><i class="fa-solid fa-user-shield"></i> Gelen Destek Talepleri (Yetkili Paneli)</h2>
+            <div id="adminTicketsList"></div>
+        </div>
+
     </div>
 
     <script>
-        function handleSubjectChange() {
-            const konu = document.getElementById('konu').value;
-            const oneriSection = document.getElementById('oneri-section');
-            const klanSection = document.getElementById('klan-section');
+        // --- HAFIZADAN VERİLERİ YÜKLE ---
+        let users = JSON.parse(localStorage.getItem('portucle_users')) || [];
+        let tickets = JSON.parse(localStorage.getItem('portucle_tickets')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('portucle_current_user')) || null;
 
-            // Tüm dinamik alanları gizle
-            oneriSection.style.display = 'none';
-            klanSection.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNav();
+            renderAppView();
+        });
 
-            // Gereksinim alanlarını sıfırla
-            document.getElementById('oneri').required = false;
-            document.getElementById('ad').required = false;
-            document.getElementById('yas').required = false;
-            document.getElementById('seviye').required = false;
-            document.getElementById('rank').required = false;
+        // --- ÇIKIŞ YAPMA ---
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('portucle_current_user');
+            window.location.href = 'index.html';
+        }
 
-            if (konu === 'Öneri') {
-                oneriSection.style.display = 'block';
-                document.getElementById('oneri').required = true;
-            } else if (konu === 'Klan Alımı') {
-                klanSection.style.display = 'block';
-                document.getElementById('ad').required = true;
-                document.getElementById('yas').required = true;
-                document.getElementById('seviye').required = true;
-                document.getElementById('rank').required = true;
+        // --- DESTEK TALEBİ OLUŞTURMA ---
+        function handleCreateTicket(e) {
+            e.preventDefault();
+            const subject = document.getElementById('ticketSubject').value;
+            const message = document.getElementById('ticketMessage').value.trim();
+
+            const newTicket = {
+                id: Date.now(),
+                userId: currentUser.id,
+                username: currentUser.username,
+                subject: subject,
+                message: message,
+                status: 'Açık',
+                reply: null,
+                repliedBy: null
+            };
+
+            tickets.push(newTicket);
+            localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
+
+            alert("Destek talebiniz başarıyla gönderildi!");
+            document.getElementById('ticketMessage').value = '';
+            renderAppView();
+        }
+
+        // --- YETKİLİ DESTEK YANITLAMA ---
+        function handleReplyTicket(ticketId) {
+            const replyInput = document.getElementById(`reply-input-${ticketId}`);
+            const replyText = replyInput.value.trim();
+
+            if (!replyText) {
+                alert("Lütfen yanıt metnini boş bırakmayın!");
+                return;
+            }
+
+            const ticketIndex = tickets.findIndex(t => t.id === ticketId);
+            if (ticketIndex !== -1) {
+                tickets[ticketIndex].reply = replyText;
+                tickets[ticketIndex].status = 'Cevaplandı';
+                tickets[ticketIndex].repliedBy = {
+                    username: currentUser.username,
+                    role: currentUser.role
+                };
+
+                localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
+                renderAppView();
+            }
+        }
+
+        // --- ARAYÜZ YÖNETİMİ ---
+        function renderNav() {
+            const nav = document.getElementById('userNav');
+            if (currentUser) {
+                let badgeClass = getBadgeClass(currentUser.role);
+                nav.innerHTML = `
+                    <a href="index.html" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-user"></i>
+                        <span style="font-weight: 600;">${currentUser.username}</span>
+                        <span class="badge ${badgeClass}">${currentUser.role}</span>
+                    </div>
+                    <button class="btn btn-danger" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+                `;
+            } else {
+                nav.innerHTML = `
+                    <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Giriş Yap</a>
+                `;
+            }
+        }
+
+        function renderAppView() {
+            const loginRequiredContainer = document.getElementById('loginRequiredContainer');
+            const supportFormContainer = document.getElementById('supportFormContainer');
+            const myTicketsContainer = document.getElementById('myTicketsContainer');
+            const adminTicketsContainer = document.getElementById('adminTicketsContainer');
+
+            loginRequiredContainer.classList.add('hidden');
+            supportFormContainer.classList.add('hidden');
+            myTicketsContainer.classList.add('hidden');
+            adminTicketsContainer.classList.add('hidden');
+
+            if (!currentUser) {
+                loginRequiredContainer.classList.remove('hidden');
+            } else {
+                supportFormContainer.classList.remove('hidden');
+                myTicketsContainer.classList.remove('hidden');
+                renderMyTickets();
+
+                // Yetkililer Destek Paneli (Kurucu, Yönetici, Elit)
+                if (['Kurucu', 'Yönetici', 'Elit'].includes(currentUser.role)) {
+                    adminTicketsContainer.classList.remove('hidden');
+                    renderAdminTickets();
+                }
+            }
+        }
+
+        // Kendi Taleplerim
+        function renderMyTickets() {
+            const container = document.getElementById('myTicketsList');
+            const myTickets = tickets.filter(t => t.userId === currentUser.id);
+
+            if (myTickets.length === 0) {
+                container.innerHTML = '<p style="color: #94a3b8;">Henüz oluşturulmuş bir destek talebiniz yok.</p>';
+                return;
+            }
+
+            container.innerHTML = myTickets.map(t => `
+                <div class="ticket-item">
+                    <div class="ticket-header">
+                        <strong>Konu: ${t.subject}</strong>
+                        <span class="badge ${t.status === 'Cevaplandı' ? 'badge-elit' : 'badge-oyuncu'}">${t.status}</span>
+                    </div>
+                    <div class="ticket-body">${t.message}</div>
+                    ${t.reply ? `
+                        <div class="ticket-reply">
+                            <div class="ticket-reply-author">
+                                <i class="fa-solid fa-reply"></i> Yanıtlayan: ${t.repliedBy.username} 
+                                <span class="badge ${getBadgeClass(t.repliedBy.role)}">${t.repliedBy.role}</span>
+                            </div>
+                            <div>${t.reply}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Yetkili Destek Talepleri
+        function renderAdminTickets() {
+            const container = document.getElementById('adminTicketsList');
+
+            if (tickets.length === 0) {
+                container.innerHTML = '<p style="color: #94a3b8;">Bekleyen veya gelen destek talebi yok.</p>';
+                return;
+            }
+
+            container.innerHTML = tickets.map(t => `
+                <div class="ticket-item">
+                    <div class="ticket-header">
+                        <div class="ticket-author">
+                            <i class="fa-solid fa-user"></i> ${t.username}
+                        </div>
+                        <span class="badge ${t.status === 'Cevaplandı' ? 'badge-elit' : 'badge-yonetici'}">${t.status}</span>
+                    </div>
+                    <div class="ticket-body">
+                        <strong>Konu: ${t.subject}</strong><br>
+                        ${t.message}
+                    </div>
+                    ${t.reply ? `
+                        <div class="ticket-reply">
+                            <div class="ticket-reply-author">
+                                <i class="fa-solid fa-check-double"></i> Yanıtlayan: ${t.repliedBy.username} 
+                                <span class="badge ${getBadgeClass(t.repliedBy.role)}">${t.repliedBy.role}</span>
+                            </div>
+                            <div>${t.reply}</div>
+                        </div>
+                    ` : `
+                        <div style="margin-top: 10px;">
+                            <textarea id="reply-input-${t.id}" rows="2" placeholder="Yanıtınızı yazınız..." style="width: 100%; margin-bottom: 8px;"></textarea>
+                            <button class="btn btn-primary" onclick="handleReplyTicket(${t.id})"><i class="fa-solid fa-reply"></i> Yanıtla ve Gönder</button>
+                        </div>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        // Badge Rengi Belirleyici
+        function getBadgeClass(role) {
+            switch(role) {
+                case 'Kurucu': return 'badge-kurucu';
+                case 'Yönetici': return 'badge-yonetici';
+                case 'Elit': return 'badge-elit';
+                default: return 'badge-oyuncu';
             }
         }
     </script>
