@@ -49,6 +49,7 @@
         .badge-yonetici { background: #e67e22; color: #fff; box-shadow: 0 0 10px rgba(230, 126, 34, 0.6); }
         .badge-elit { background: #9b59b6; color: #fff; box-shadow: 0 0 10px rgba(155, 89, 182, 0.6); }
         .badge-oyuncu { background: #34495e; color: #fff; }
+        .badge-kapali { background: #64748b; color: #fff; }
 
         /* Butonlar */
         .btn {
@@ -65,6 +66,7 @@
             color: #fff;
             font-size: 0.9rem;
         }
+        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
         .btn-primary { background: linear-gradient(135deg, #ffb703, #fb8500); color: #000; font-weight: bold; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4); }
         .btn-secondary { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
@@ -87,7 +89,7 @@
         /* Form Elemanları */
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #cbd5e1; }
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px 14px;
             background: rgba(0, 0, 0, 0.4);
@@ -98,15 +100,10 @@
             outline: none;
             transition: border-color 0.3s;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group select:focus, .form-group textarea:focus {
             border-color: #ffb703;
             box-shadow: 0 0 8px rgba(255, 183, 3, 0.3);
         }
-
-        /* Tab / Sekme Yapısı */
-        .tab-buttons { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; color: #94a3b8; font-size: 1.1rem; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: 6px; }
-        .tab-btn.active { color: #ffb703; background: rgba(255, 183, 3, 0.1); }
 
         /* Destek Talebi Kartları */
         .ticket-item {
@@ -130,22 +127,20 @@
     <!-- ÜST MENÜ (NAVBAR) -->
     <nav>
         <a href="index.html" class="logo"><i class="fa-solid fa-gamepad"></i> PORTUCLE</a>
-        <div class="user-nav" id="userNav">
-            <!-- JavaScript ile Yüklenecek -->
-        </div>
+        <div class="user-nav" id="userNav"></div>
     </nav>
 
     <div class="container">
 
-        <!-- 1. GİRİŞ UYARISI (Giriş Yapılmamışsa Görünür) -->
+        <!-- GİRİŞ UYARISI -->
         <div id="loginRequiredContainer" class="card hidden" style="text-align: center;">
             <i class="fa-solid fa-lock" style="font-size: 3rem; color: #ffb703; margin-bottom: 15px;"></i>
             <h2 style="margin-bottom: 10px;">Giriş Yapmanız Gerekiyor</h2>
-            <p style="color: #94a3b8; margin-bottom: 20px;">Destek talebi oluşturmak veya taleplerinizi görüntülemek için lütfen ana sayfadan giriş yapın.</p>
-            <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfaya Git & Giriş Yap</a>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Destek talebi oluşturmak veya yönetmek için lütfen giriş yapın.</p>
+            <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
         </div>
 
-        <!-- 2. DESTEK TALEBİ OLUŞTURMA PANELİ -->
+        <!-- DESTEK TALEBİ OLUŞTURMA -->
         <div id="supportFormContainer" class="card hidden">
             <h2 style="color: #ffb703; margin-bottom: 20px;"><i class="fa-solid fa-headset"></i> Destek Talebi Oluştur</h2>
             <form onsubmit="handleCreateTicket(event)">
@@ -166,13 +161,13 @@
             </form>
         </div>
 
-        <!-- 3. KULLANICININ KENDİ DESTEK TALEPLERİ -->
+        <!-- KULLANICININ DESTEK TALEPLERİ -->
         <div id="myTicketsContainer" class="card hidden">
             <h3 style="margin-bottom: 15px;"><i class="fa-solid fa-clock-rotate-left"></i> Destek Geçmişim</h3>
             <div id="myTicketsList"></div>
         </div>
 
-        <!-- 4. YETKİLİ PANELİ - GELEN TALEPLER (Kurucu, Yönetici, Elit Görür) -->
+        <!-- YETKİLİ PANELİ - GELEN TALEPLER -->
         <div id="adminTicketsContainer" class="card hidden">
             <h2 style="color: #e67e22; margin-bottom: 20px;"><i class="fa-solid fa-user-shield"></i> Gelen Destek Talepleri (Yetkili Paneli)</h2>
             <div id="adminTicketsList"></div>
@@ -181,7 +176,6 @@
     </div>
 
     <script>
-        // --- HAFIZADAN VERİLERİ YÜKLE ---
         let users = JSON.parse(localStorage.getItem('portucle_users')) || [];
         let tickets = JSON.parse(localStorage.getItem('portucle_tickets')) || [];
         let currentUser = JSON.parse(localStorage.getItem('portucle_current_user')) || null;
@@ -191,14 +185,12 @@
             renderAppView();
         });
 
-        // --- ÇIKIŞ YAPMA ---
         function handleLogout() {
             currentUser = null;
             localStorage.removeItem('portucle_current_user');
             window.location.href = 'index.html';
         }
 
-        // --- DESTEK TALEBİ OLUŞTURMA ---
         function handleCreateTicket(e) {
             e.preventDefault();
             const subject = document.getElementById('ticketSubject').value;
@@ -223,7 +215,6 @@
             renderAppView();
         }
 
-        // --- YETKİLİ DESTEK YANITLAMA ---
         function handleReplyTicket(ticketId) {
             const replyInput = document.getElementById(`reply-input-${ticketId}`);
             const replyText = replyInput.value.trim();
@@ -247,7 +238,18 @@
             }
         }
 
-        // --- ARAYÜZ YÖNETİMİ ---
+        // --- TALEP KAPATMA İŞLEMİ ---
+        function handleCloseTicket(ticketId) {
+            if (!confirm("Bu destek talebini kapatmak istediğinize emin misiniz?")) return;
+
+            const ticketIndex = tickets.findIndex(t => t.id === ticketId);
+            if (ticketIndex !== -1) {
+                tickets[ticketIndex].status = 'Kapalı';
+                localStorage.setItem('portucle_tickets', JSON.stringify(tickets));
+                renderAppView();
+            }
+        }
+
         function renderNav() {
             const nav = document.getElementById('userNav');
             if (currentUser) {
@@ -286,7 +288,6 @@
                 myTicketsContainer.classList.remove('hidden');
                 renderMyTickets();
 
-                // Yetkililer Destek Paneli (Kurucu, Yönetici, Elit)
                 if (['Kurucu', 'Yönetici', 'Elit'].includes(currentUser.role)) {
                     adminTicketsContainer.classList.remove('hidden');
                     renderAdminTickets();
@@ -294,7 +295,6 @@
             }
         }
 
-        // Kendi Taleplerim
         function renderMyTickets() {
             const container = document.getElementById('myTicketsList');
             const myTickets = tickets.filter(t => t.userId === currentUser.id);
@@ -308,7 +308,12 @@
                 <div class="ticket-item">
                     <div class="ticket-header">
                         <strong>Konu: ${t.subject}</strong>
-                        <span class="badge ${t.status === 'Cevaplandı' ? 'badge-elit' : 'badge-oyuncu'}">${t.status}</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="badge ${getStatusBadgeClass(t.status)}">${t.status}</span>
+                            ${t.status !== 'Kapalı' ? `
+                                <button class="btn btn-danger btn-sm" onclick="handleCloseTicket(${t.id})"><i class="fa-solid fa-xmark"></i> Talebi Kapat</button>
+                            ` : ''}
+                        </div>
                     </div>
                     <div class="ticket-body">${t.message}</div>
                     ${t.reply ? `
@@ -324,7 +329,6 @@
             `).join('');
         }
 
-        // Yetkili Destek Talepleri
         function renderAdminTickets() {
             const container = document.getElementById('adminTicketsList');
 
@@ -339,7 +343,12 @@
                         <div class="ticket-author">
                             <i class="fa-solid fa-user"></i> ${t.username}
                         </div>
-                        <span class="badge ${t.status === 'Cevaplandı' ? 'badge-elit' : 'badge-yonetici'}">${t.status}</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="badge ${getStatusBadgeClass(t.status)}">${t.status}</span>
+                            ${t.status !== 'Kapalı' ? `
+                                <button class="btn btn-danger btn-sm" onclick="handleCloseTicket(${t.id})"><i class="fa-solid fa-xmark"></i> Kapat</button>
+                            ` : ''}
+                        </div>
                     </div>
                     <div class="ticket-body">
                         <strong>Konu: ${t.subject}</strong><br>
@@ -353,23 +362,30 @@
                             </div>
                             <div>${t.reply}</div>
                         </div>
-                    ` : `
+                    ` : (t.status !== 'Kapalı' ? `
                         <div style="margin-top: 10px;">
                             <textarea id="reply-input-${t.id}" rows="2" placeholder="Yanıtınızı yazınız..." style="width: 100%; margin-bottom: 8px;"></textarea>
                             <button class="btn btn-primary" onclick="handleReplyTicket(${t.id})"><i class="fa-solid fa-reply"></i> Yanıtla ve Gönder</button>
                         </div>
-                    `}
+                    ` : '<p style="color: #94a3b8; font-size: 0.85rem; margin-top: 10px;"><i class="fa-solid fa-lock"></i> Bu talep kapatıldığı için yanıt verilemez.</p>')}
                 </div>
             `).join('');
         }
 
-        // Badge Rengi Belirleyici
         function getBadgeClass(role) {
             switch(role) {
                 case 'Kurucu': return 'badge-kurucu';
                 case 'Yönetici': return 'badge-yonetici';
                 case 'Elit': return 'badge-elit';
                 default: return 'badge-oyuncu';
+            }
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'Cevaplandı': return 'badge-elit';
+                case 'Kapalı': return 'badge-kapali';
+                default: return 'badge-yonetici';
             }
         }
     </script>
